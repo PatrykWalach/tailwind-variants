@@ -1,6 +1,6 @@
-import type {WithTV, TVTransformer} from "../transformer";
+import type { TVTransformer, WithTV } from "../transformer";
 
-import {tvTransformer, withTV} from "../transformer";
+import { tvTransformer, withTV } from "../transformer";
 
 type Mock = {
   withTV: WithTV;
@@ -54,6 +54,46 @@ describe("Responsive Variants", () => {
             lg: "lg:text-blue-50 lg:bg-blue-600 lg:rounded",
             xl: "xl:text-blue-50 xl:bg-blue-600 xl:rounded",
             "2xl": "2xl:text-blue-50 2xl:bg-blue-600 2xl:rounded",
+          },
+        },
+      },
+    ];
+
+    expect(result).toBe(expectedContent(sourceCode, transformedContent));
+  });
+
+  test("should return a transformed content (string) for a class with ')'", () => {
+    const sourceCode = `
+    import { tv } from "tailwind-variants";
+
+    
+    export const dialog = tv(
+      {
+        variants: {
+          color: {
+            primary: "w-[calc(100%-1rem)]"
+          }
+        }
+      },
+      {
+        responsiveVariants: true
+      },
+      { responsiveVariants: ['sm'] },
+    )
+    `;
+
+    const result = tvTransformer(sourceCode, defaultScreens);
+
+    const transformedContent = [
+      {
+        color: {
+          primary: {
+            original: "w-[calc(100%-1rem)]",
+            sm: "sm:w-[calc(100%-1rem)]",
+            md: "md:w-[calc(100%-1rem)]",
+            lg: "lg:w-[calc(100%-1rem)]",
+            xl: "xl:w-[calc(100%-1rem)]",
+            "2xl": "2xl:w-[calc(100%-1rem)]",
           },
         },
       },
