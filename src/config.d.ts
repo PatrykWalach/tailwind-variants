@@ -31,5 +31,6 @@ export type TVConfig<
   responsiveVariants?:
     | boolean
     | TVGeneratedScreens[]
-    | {[K in keyof V | keyof EV]?: boolean | TVGeneratedScreens[]};
+    | `max-${TVGeneratedScreens}`[]
+    | {[K in keyof V | keyof EV]?: boolean | TVGeneratedScreens[] | `max-${TVGeneratedScreens}`[]};
 } & TWMConfig;
