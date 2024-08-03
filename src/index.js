@@ -181,7 +181,7 @@ export const tv = (options, configProp) => {
         for (const [screen, screenVariantKey] of Object.entries(variantKey)) {
           const screenVariantValue = variantObj[screenVariantKey];
 
-          if (screen === "initial") {
+          if (screen === "initial" || screen === "final") {
             defaultVariantProp = screenVariantKey;
             continue;
           }

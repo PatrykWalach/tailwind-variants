@@ -1368,6 +1368,55 @@ describe("Tailwind Variants (TV) - Screen Variants", () => {
     expectTv(result, expectedResult);
   });
 
+  describe("max", () => {
+    test("should work with screenVariants/initial screen", () => {
+      const button = tv(
+        {
+          base: "text-xs font-bold",
+          variants: {
+            color: {
+              primary: "text-blue-500",
+              secondary: "text-purple-500",
+              success: "text-green-500",
+              danger: "text-red-500",
+            },
+            size: {
+              sm: "text-sm",
+              md: "text-md",
+              lg: "text-lg",
+            },
+            variant: {
+              outline: "border border-blue-500",
+              solid: "bg-blue-500",
+              ghost: "bg-transparent hover:bg-blue-500",
+            },
+          },
+        },
+        {
+          responsiveVariants: ["max-sm", "max-md"],
+        },
+      );
+
+      const result = button({
+        color: {
+          "max-sm": "primary",
+          "max-md": "danger",
+          final: "success",
+        },
+      });
+
+      const expectedResult = [
+        "text-xs",
+        "font-bold",
+        "max-sm:text-blue-500",
+        "max-md:text-red-500",
+        "text-green-500",
+      ];
+
+      expectTv(result, expectedResult);
+    });
+  });
+
   test("the screenVariants/initial should override the defaultVariants", () => {
     const button = tv(
       {

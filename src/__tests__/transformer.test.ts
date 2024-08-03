@@ -62,6 +62,42 @@ describe("Responsive Variants", () => {
     expect(result).toBe(expectedContent(sourceCode, transformedContent));
   });
 
+  describe("max", () => {
+    test("should return a transformed content (string)", () => {
+      const sourceCode = `
+        import {tv} from "tailwind-variants";
+  
+        const button = tv(
+          {
+            variants: {
+              color: {
+                primary: "text-blue-50 bg-blue-600 rounded"
+              }
+            }
+          },
+          {
+            responsiveVariants: ['max-sm']
+          }
+        );
+      `;
+
+      const result = tvTransformer(sourceCode, defaultScreens);
+
+      const transformedContent = [
+        {
+          color: {
+            primary: {
+              original: "text-blue-50 bg-blue-600 rounded",
+              "max-sm": "max-sm:text-blue-50 max-sm:bg-blue-600 max-sm:rounded",
+            },
+          },
+        },
+      ];
+
+      expect(result).toBe(expectedContent(sourceCode, transformedContent));
+    });
+  });
+
   test("should return a transformed content (string) for a class with ')'", () => {
     const sourceCode = `
     import { tv } from "tailwind-variants";
