@@ -318,6 +318,43 @@ describe("Responsive Variants", () => {
     expect(result).toBe(expectedContent(sourceCode, transformedContent));
   });
 
+  describe("max", () => {
+    test("should return a transformed content (on-demand responsive variants - screens)", () => {
+      const sourceCode = `
+        import {tv} from "tailwind-variants";
+  
+        const button = tv(
+          {
+            variants: {
+              color: {
+                primary: "text-blue-50 bg-blue-600 rounded"
+              }
+            }
+          },
+          {
+            responsiveVariants: ["max-sm", "max-md"]
+          }
+        );
+      `;
+
+      const result = tvTransformer(sourceCode, defaultScreens);
+
+      const transformedContent = [
+        {
+          color: {
+            primary: {
+              original: "text-blue-50 bg-blue-600 rounded",
+              "max-sm": "max-sm:text-blue-50 max-sm:bg-blue-600 max-sm:rounded",
+              "max-md": "max-md:text-blue-50 max-md:bg-blue-600 max-md:rounded",
+            },
+          },
+        },
+      ];
+
+      expect(result).toBe(expectedContent(sourceCode, transformedContent));
+    });
+  });
+
   test("should return a transformed content (on-demand responsive variants - screens)", () => {
     const sourceCode = `
       import {tv} from "tailwind-variants";

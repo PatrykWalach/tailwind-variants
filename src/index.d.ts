@@ -43,6 +43,7 @@ export declare const cn: <T extends CnOptions>(...classes: T) => (config?: TWMCo
 export type isTrueOrArray<T> = T extends true | unknown[] ? true : false;
 
 export type WithInitialScreen<T extends Array<string>> = ["initial", ...T];
+export type WithFinalScreen<T extends Array<string>> = ["final", ...T];
 
 /**
  * ----------------------------------------------------------------------
@@ -130,7 +131,11 @@ export type TVScreenPropsValue<
   S extends TVSlots,
   K extends keyof V,
   C extends TVConfig,
-> = C["responsiveVariants"] extends string[]
+> = C["responsiveVariants"] extends `max-${string}`[]
+  ? {
+      [Screen in WithFinalScreen<C["responsiveVariants"]>[number]]?: StringToBoolean<keyof V[K]>;
+    }
+  : C["responsiveVariants"] extends string[]
   ? {
       [Screen in WithInitialScreen<C["responsiveVariants"]>[number]]?: StringToBoolean<keyof V[K]>;
     }
