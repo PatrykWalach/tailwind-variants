@@ -1,5 +1,5 @@
 {
-  "name": "tailwind-variants",
+  "name": "@patryk_walach/tailwind-variants",
   "version": "0.2.0",
   "description": "🦄 Tailwindcss first-class variant API",
   "author": "Junior Garcia <jrgarciadev@gmail.com>",
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nextui-org/tailwind-variants"
+    "url": "https://github.com/PatrykWalach/tailwind-variants"
   },
   "bugs": {
-    "url": "https://github.com/nextui-org/tailwind-variants/issues"
+    "url": "https://github.com/PatrykWalach/tailwind-variants/issues"
   },
   "type": "module",
   "main": "dist/index.cjs",
