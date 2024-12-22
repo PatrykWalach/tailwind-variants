@@ -1,7 +1,7 @@
 import {generateTypes} from "./generator";
 
 const regExp = {
-  tv: /tv\s*\(((\([^\)]*?\)|\[[^\]]*?\]|.)*?)\)/gs,
+  tv: /tv\s*\(/gs,
   tvExtend: /extend:\s*\w+(,| )\s*/,
   comment: /\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm,
   blankLine: /^\s*$(?:\r\n?|\n)/gm,
@@ -56,12 +56,36 @@ const pipeline = (...funcs) => {
 
 const getCleanContent = (content) => {
   const removeComment = content.replace(regExp.comment, "$1").toString();
+
+  /**  @type { string}*/
   const removeBlankLine = removeComment.replace(regExp.blankLine, "").toString();
 
   // TODO: support inline tv
-  const removeExtend = (match) => match[1].replace(regExp.tvExtend, "").toString();
+  const removeExtend = (match) => match.replace(regExp.tvExtend, "").toString();
 
-  return Array.from(removeBlankLine.matchAll(regExp.tv), removeExtend);
+  const it = Array.from(removeBlankLine.matchAll(regExp.tv));
+
+  const result = [];
+
+  for (const match of removeBlankLine.matchAll(regExp.tv)) {
+    let bracketsDepth = 1;
+    let i = match.index + match[0].length;
+
+    for (; bracketsDepth > 0 && i < removeBlankLine.length; i++) {
+      if (removeBlankLine.charAt(i) === "(") {
+        bracketsDepth++;
+        continue;
+      }
+
+      if (removeBlankLine.charAt(i) === ")") {
+        bracketsDepth--;
+      }
+    }
+
+    result.push(removeExtend(removeBlankLine.substring(match.index + match[0].length, i - 1)));
+  }
+
+  return result;
 };
 
 const getTVObjects = (content) => {
