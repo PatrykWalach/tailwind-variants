@@ -1,5 +1,3 @@
-import resolveConfig from "tailwindcss/resolveConfig";
-
 import {generateTypes} from "./generator";
 
 const regExp = {
@@ -257,7 +255,7 @@ const getExtensions = (files) => {
 };
 
 export const withTV = (tailwindConfig, transformerConfig) => {
-  let config = resolveConfig(tailwindConfig);
+  let config = tailwindConfig;
 
   // generate types
   generateTypes(config.theme);
